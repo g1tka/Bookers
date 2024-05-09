@@ -1,10 +1,16 @@
 class BooksController < ApplicationController
-  #       POST   /books(.:format)              books#create
+  #       POST   /books(.:format)         books#create
   def create
-    book = Book.new(book_params)
-    book.save
-    redirect_to show_book_path(book.id)
+    @book = Book.new(book_params)
+    if @book.save
+      flash[:notice] = "Book was successfully created."
+      redirect_to show_book_path(@book.id)
     # to '  '文字列にしない。
+    else
+      @books = Book.all  #2回目の定義
+
+      render :index#, status: :unprocessable_entity
+    end
   end
 
   def index
@@ -19,18 +25,24 @@ class BooksController < ApplicationController
   def edit
     @book = Book.find(params[:id])
   end
-  
+
   def update
-    book = Book.find(params[:id])
-    book.update(book_params)
-    redirect_to show_book_path(book.id)
-    # フラッシュメッセージつけたい↑
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      flash[:comment] = "Book was successfully updated."
+      redirect_to show_book_path(@book.id)
+    else
+    
+      render :edit
+    end
   end
 
   def destroy
     book = Book.find(params[:id])
-    book.destroy
-    redirect_to '/books'
+　  book.destroy
+    flash.now[:tell] = "Book was successfully destroyed."
+    @books = Book.all #3回目の定義
+    render :index
   end
 
   private
