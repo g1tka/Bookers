@@ -20,7 +20,9 @@
     <!--ここは2回まちがえたところ。ブロック変数から↓-->
     <td><%= link_to "show", show_book_path(book.id) %></td>
     <td><%= link_to "edit", edit_book_path(book.id) %></td>
-    <td><%= "destroy" %></td>
+    <!--HTTPメソッドも指定する必要↓-->
+    <td><%= link_to "destroy", destroy_book_path(book.id), method: :delete, "data-confirm" => "Are you sure?" %></td>
+    <!--↑フラッシュメッセージ-->
   </tr>
   <% end %>
   </tbody>

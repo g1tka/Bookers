@@ -4,12 +4,12 @@ class BooksController < ApplicationController
     book = Book.new(book_params)
     book.save
     redirect_to show_book_path(book.id)
-    # to '  'これがそのままリンクになる。文字列。
+    # to '  '文字列にしない。
   end
 
   def index
-    @book = Book.new
     @books = Book.all
+    @book = Book.new
   end
 
   def show
@@ -17,6 +17,14 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book = Book.find(params[:id])
+  end
+  
+  def update
+    book = Book.find(params[:id])
+    book.update(book_params)
+    redirect_to show_book_path(book.id)
+    # フラッシュメッセージつけたい↑
   end
 
   def destroy
