@@ -38,11 +38,12 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Book.find(params[:id])
-　  book.destroy
-    flash.now[:tell] = "Book was successfully destroyed."
-    @books = Book.all #3回目の定義
-    render :index
+    @book = Book.find(params[:id])
+    @book.destroy
+    flash[:tell] = "Book was successfully destroyed."
+#    @books = Book.all
+#    render :index
+    redirect_to books_path
   end
 
   private
